@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Growth System - Teacher RPG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
+      color:white;
+      min-height:100vh;
+      padding:20px;
+    }
+
+    .container{
+      max-width:1400px;
+      margin:auto;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#1d4ed8,#2563eb,#0ea5e9);
+      border-radius:28px;
+      padding:35px;
+      margin-bottom:25px;
+      box-shadow:0 15px 40px rgba(0,0,0,0.4);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      width:400px;
+      height:400px;
+      background:rgba(255,255,255,0.08);
+      border-radius:50%;
+      top:-120px;
+      right:-100px;
+    }
+
+    .hero h1{
+      font-size:2.6rem;
+      margin-bottom:10px;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero p{
+      max-width:800px;
+      line-height:1.8;
+      opacity:0.95;
+      position:relative;
+      z-index:2;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.06);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px;
+      padding:25px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.3);
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    .card h2{
+      margin-bottom:18px;
+      font-size:1.4rem;
+      color:#93c5fd;
+    }
+
+    .task{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+      background:rgba(255,255,255,0.05);
+      padding:12px;
+      border-radius:14px;
+      transition:0.2s;
+    }
+
+    .task:hover{
+      background:rgba(255,255,255,0.09);
+    }
+
+    .task input{
+      margin-top:5px;
+      transform:scale(1.2);
+      cursor:pointer;
+    }
+
+    .task label{
+      cursor:pointer;
+      line-height:1.6;
+      font-size:0.95rem;
+    }
+
+    .house-section{
+      margin-top:30px;
+      background:rgba(255,255,255,0.05);
+      border-radius:28px;
+      padding:30px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .house-stage{
+      width:100%;
+      max-width:700px;
+      margin:auto;
+      transition:0.5s;
+    }
+
+    .progress-box{
+      margin-top:20px;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:24px;
+      background:#1e293b;
+      border-radius:30px;
+      overflow:hidden;
+      margin-top:12px;
+    }
+
+    .progress-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,#22c55e,#4ade80);
+      transition:0.5s;
+    }
+
+    .message-box{
+      margin-top:20px;
+      padding:18px;
+      border-radius:18px;
+      font-weight:500;
+      line-height:1.7;
+    }
+
+    .good{
+      background:rgba(34,197,94,0.15);
+      border:1px solid rgba(34,197,94,0.4);
+      color:#bbf7d0;
+    }
+
+    .bad{
+      background:rgba(239,68,68,0.15);
+      border:1px solid rgba(239,68,68,0.4);
+      color:#fecaca;
+    }
+
+    .target-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:15px;
+      margin-top:15px;
+    }
+
+    .target-item{
+      background:rgba(255,255,255,0.05);
+      border-radius:18px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .target-item h3{
+      margin-bottom:8px;
+      color:#facc15;
+    }
+
+    .save-btn{
+      margin-top:25px;
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+      border:none;
+      padding:15px 28px;
+      border-radius:18px;
+      color:white;
+      font-size:1rem;
+      cursor:pointer;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .save-btn:hover{
+      transform:scale(1.05);
+    }
+
+    .footer{
+      margin-top:40px;
+      text-align:center;
+      opacity:0.7;
+      font-size:0.9rem;
+    }
+
+    @media(max-width:768px){
+      .hero h1{
+        font-size:2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>🎮 Life Growth System - Teacher RPG</h1>
+    <p>
+      Sistem hidup bertahap untuk guru, tutor, dan pejuang masa depan.
+      Setiap checklist yang selesai akan memperbaiki rumah kehidupanmu.
+      Jika ritme hidup rusak dan target terlalu lama diabaikan,
+      rumah akan perlahan memburuk.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>🌅 Checklist Harian</h2>
+
+      <div class="task"><input type="checkbox" class="task-check"><label>Bangun tepat waktu dan tidak scroll berlebihan di pagi hari</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Sholat / ibadah / refleksi diri</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Mandi dan merapikan diri</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Makan dan minum cukup</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Belajar 30 menit</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Nonton video pembelajaran Ruangguru</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membuat rangkuman kecil</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Mengajar dengan persiapan mental yang baik</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membuat catatan mikro setelah mengajar</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membaca buku</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Tidur cukup dan recovery mental</label></div>
+    </div>
+
+    <div class="card">
+      <h2>📅 Checklist Mingguan</h2>
+
+      <div class="task"><input type="checkbox" class="task-check"><label>Upgrade 1 materi baru</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membuat 1 bank soal atau modul</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Evaluasi energi dan kesehatan mental</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Olahraga lebih serius</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membersihkan kamar dan meja kerja</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Mencuci atau merapikan pakaian</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membersihkan kendaraan</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Recovery setengah hari tanpa tekanan</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Catatan keuangan mingguan</label></div>
+    </div>
+
+    <div class="card">
+      <h2>🗓️ Checklist Bulanan</h2>
+
+      <div class="task"><input type="checkbox" class="task-check"><label>Menguasai 1 bab besar</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Membuat video edukasi atau slide baru</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Menabung untuk laptop / motor / rumah</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Investasi rutin saham atau emas</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Review target finansial dan tabungan</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Evaluasi pemasukan dan pengeluaran</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Mendapat testimoni siswa</label></div>
+      <div class="task"><input type="checkbox" class="task-check"><label>Self reward dan healing sehat</label></div>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:25px;">
+    <h2>🏆 Target Besar Kehidupan</h2>
+
+    <div class="target-grid">
+
+      <div class="target-item">
+        <h3>🎓 Akademik & Karir</h3>
+        <div class="task"><input type="checkbox" class="task-check"><label>Lulus PPG</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Lulus PPPK</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Lulus PNS</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Menjadi Master Teacher</label></div>
+      </div>
+
+      <div class="target-item">
+        <h3>💻 Aset & Finansial</h3>
+        <div class="task"><input type="checkbox" class="task-check"><label>Punya Laptop Impian</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Punya Motor</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Punya Rumah</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Investasi Stabil</label></div>
+      </div>
+
+      <div class="target-item">
+        <h3>❤️ Kehidupan Pribadi</h3>
+        <div class="task"><input type="checkbox" class="task-check"><label>Nikah</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Keluarga Harmonis</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Work-Life Balance</label></div>
+      </div>
+
+      <div class="target-item">
+        <h3>🚀 Bisnis & Branding</h3>
+        <div class="task"><input type="checkbox" class="task-check"><label>Punya bisnis pribadi</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Punya kelas online</label></div>
+        <div class="task"><input type="checkbox" class="task-check"><label>Punya personal branding kuat</label></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="house-section">
+
+    <h2 style="margin-bottom:20px;">🏠 Kondisi Rumah Kehidupan</h2>
+
+    <img id="houseImage" class="house-stage" src="https://i.imgur.com/ax6Z5pS.png" alt="house">
+
+    <div class="progress-box">
+      <h3>Progress Kehidupan</h3>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <p id="progressText" style="margin-top:10px;">0% berkembang</p>
+    </div>
+
+    <div id="messageBox" class="message-box good">
+      Mulailah membangun rumah impianmu sedikit demi sedikit.
+    </div>
+
+    <button class="save-btn" onclick="saveProgress()">💾 Simpan Progress & Kirim Laporan</button>
+
+  </div>
+
+  <div class="footer">
+    Dibangun untuk pertumbuhan jangka panjang, bukan kelelahan jangka pendek.
+  </div>
+
+</div>
+
+<script>
+
+  emailjs.init('YOUR_PUBLIC_KEY');
+
+  const checks = document.querySelectorAll('.task-check');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const messageBox = document.getElementById('messageBox');
+  const houseImage = document.getElementById('houseImage');
+
+  checks.forEach(check => {
+    check.addEventListener('change', updateProgress);
+  });
+
+  function updateProgress(){
+
+    let total = checks.length;
+    let checked = document.querySelectorAll('.task-check:checked').length;
+
+    let percent = Math.round((checked/total)*100);
+
+    progressFill.style.width = percent + '%';
+    progressText.innerHTML = percent + '% berkembang';
+
+    if(percent >= 80){
+
+      houseImage.src = 'https://i.imgur.com/WKQpL0L.png';
+
+      messageBox.className = 'message-box good';
+      messageBox.innerHTML = '🔥 Luar biasa! Rumah kehidupanmu menjadi megah karena konsistensi, disiplin, dan keseimbangan hidup.';
+
+    }
+
+    else if(percent >= 50){
+
+      houseImage.src = 'https://i.imgur.com/vm8T4bS.png';
+
+      messageBox.className = 'message-box good';
+      messageBox.innerHTML = '✨ Rumahmu mulai berkembang. Tetap jaga ritme dan jangan terlalu keras pada diri sendiri.';
+
+    }
+
+    else if(percent >= 25){
+
+      houseImage.src = 'https://i.imgur.com/ax6Z5pS.png';
+
+      messageBox.className = 'message-box good';
+      messageBox.innerHTML = '🌱 Pondasi sudah mulai terbentuk. Sedikit demi sedikit tetap lebih baik daripada berhenti total.';
+
+    }
+
+    else{
+
+      houseImage.src = 'https://i.imgur.com/9G6P7tM.png';
+
+      messageBox.className = 'message-box bad';
+      messageBox.innerHTML = '⚠️ Rumah kehidupan mulai rusak karena ritme hidup tidak terjaga. Istirahatlah, lalu mulai kembali perlahan.';
+
+    }
+
+    localStorage.setItem('teacher_rpg_progress', JSON.stringify([...checks].map(c => c.checked)));
+  }
+
+  function loadProgress(){
+
+    let saved = JSON.parse(localStorage.getItem('teacher_rpg_progress'));
+
+    if(saved){
+      checks.forEach((check,index)=>{
+        check.checked = saved[index];
+      });
+    }
+
+    updateProgress();
+  }
+
+  function saveProgress(){
+
+    let checked = document.querySelectorAll('.task-check:checked').length;
+    let total = checks.length;
+
+    let percent = Math.round((checked/total)*100);
+
+    let report = `Progress Teacher RPG: ${percent}%\n\nChecklist selesai: ${checked} dari ${total}`;
+
+    emailjs.send('YOUR_SERVICE_ID','YOUR_TEMPLATE_ID',{
+      to_email:'rizkyahmeddarmawan98@gmal.com',
+      message:report
+    })
+    .then(function(){
+      alert('✅ Progress berhasil disimpan dan laporan berhasil dikirim ke email!');
+    })
+    .catch(function(error){
+      alert('⚠️ Progress tersimpan di browser, tetapi email gagal dikirim. Pastikan EmailJS sudah dikonfigurasi.');
+      console.log(error);
+    });
+
+    localStorage.setItem('teacher_rpg_progress', JSON.stringify([...checks].map(c => c.checked)));
+  }
+
+  // ================================
+  // AUTO RESET SYSTEM
+  // ================================
+
+  function autoResetChecklist(){
+
+    const now = new Date();
+
+    const today = now.toDateString();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
+    let lastDailyReset = localStorage.getItem('lastDailyReset');
+    let lastMonthlyReset = localStorage.getItem('lastMonthlyReset');
+    let lastYearlyReset = localStorage.getItem('lastYearlyReset');
+
+    // RESET HARIAN
+    if(lastDailyReset !== today){
+
+      document.querySelectorAll('.card:nth-child(1) .task-check').forEach(check=>{
+        check.checked = false;
+      });
+
+      localStorage.setItem('lastDailyReset',today);
+    }
+
+    // RESET BULANAN
+    if(lastMonthlyReset != currentMonth){
+
+      document.querySelectorAll('.card:nth-child(3) .task-check').forEach(check=>{
+        check.checked = false;
+      });
+
+      localStorage.setItem('lastMonthlyReset',currentMonth);
+    }
+
+    // RESET TAHUNAN
+    if(lastYearlyReset != currentYear){
+
+      document.querySelectorAll('.target-item .task-check').forEach(check=>{
+        check.checked = false;
+      });
+
+      localStorage.setItem('lastYearlyReset',currentYear);
+    }
+
+  }
+
+  loadProgress();
+  autoResetChecklist();
+  updateProgress();
+
+</script>
+
+</body>
+</html>
