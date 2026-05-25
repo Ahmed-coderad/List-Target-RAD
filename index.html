@@ -105,6 +105,7 @@
       margin-bottom:10px;
       position:relative;
       z-index:2;
+      color:#FCC102;
     }
 
     .hero p{
@@ -113,6 +114,7 @@
       opacity:0.95;
       position:relative;
       z-index:2;
+      color:#FBFBFB;
     }
 
     .grid{
@@ -216,13 +218,13 @@
     .good{
       background:rgba(34,197,94,0.15);
       border:1px solid rgba(34,197,94,0.4);
-      color:#47f484;
+      color:#1bf267;
     }
 
     .bad{
       background:rgba(239,68,68,0.15);
       border:1px solid rgba(239,68,68,0.4);
-      color:#e7ca6b;
+      color:#f76464;
     }
 
     .target-grid{
@@ -269,22 +271,152 @@
       font-size:0.9rem;
     }
 
-    @media(max-width:1100px){
-      .container{
-        grid-template-columns:1fr;
-      }
+    html{
+  scroll-behavior:smooth;
+}
 
-      .sidebar{
-        min-height:auto;
-        position:relative;
-      }
-    }
+    /* =========================================
+   RESPONSIVE MOBILE KECIL
+========================================= */
 
-    @media(max-width:768px){
-      .hero h1{
-        font-size:2rem;
-      }
-    }
+@media(max-width:480px){
+
+  body{
+    padding:10px;
+  }
+
+  .container{
+    grid-template-columns:1fr;
+    gap:15px;
+  }
+
+  .sidebar{
+    position:relative;
+    min-height:auto;
+    padding:20px;
+    border-radius:22px;
+  }
+
+  .logo{
+    font-size:1.5rem;
+    text-align:center;
+  }
+
+  .menu{
+    gap:10px;
+  }
+
+  .menu-item{
+    padding:12px;
+    font-size:0.9rem;
+    text-align:center;
+  }
+
+  .hero{
+    padding:25px 20px;
+    border-radius:22px;
+  }
+
+  .hero h1{
+    font-size:1.6rem;
+    line-height:1.4;
+  }
+
+  .hero p{
+    font-size:0.9rem;
+    line-height:1.7;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .card h2{
+    font-size:1.1rem;
+  }
+
+  .task{
+    padding:10px;
+    gap:10px;
+  }
+
+  .task label{
+    font-size:0.85rem;
+  }
+
+  .target-grid{
+    grid-template-columns:1fr;
+  }
+
+  .save-btn{
+    width:100%;
+    padding:14px;
+    font-size:0.95rem;
+  }
+
+  .house-stage{
+    max-width:100%;
+  }
+
+}
+
+/* =========================================
+   RESPONSIVE TABLET
+========================================= */
+
+@media(min-width:481px) and (max-width:1024px){
+
+  .container{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:relative;
+    min-height:auto;
+  }
+
+  .grid{
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  }
+
+  .target-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  }
+
+  .hero h1{
+    font-size:2rem;
+  }
+
+}
+
+/* =========================================
+   RESPONSIVE LAPTOP BESAR & DESKTOP
+========================================= */
+
+@media(min-width:1400px){
+
+  .container{
+    max-width:1700px;
+  }
+
+  .hero h1{
+    font-size:3rem;
+  }
+
+  .hero p{
+    font-size:1.1rem;
+  }
+
+  .card{
+    padding:30px;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -318,7 +450,7 @@
   <div class="main-content">
 
   <div class="hero" id="dashboardSection">
-    <h1>🎮 Life Growth System - Teacher RPG</h1>
+    <h1>🎮 Life Growth System - Teacher RAD</h1>
     <p>
       Sistem hidup bertahap untuk guru, tutor, dan pejuang masa depan.
       Setiap checklist yang selesai akan memperbaiki rumah kehidupanmu.
