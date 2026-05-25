@@ -65,6 +65,8 @@
       border-radius:18px;
       font-weight:500;
       transition:0.3s;
+      cursor:pointer;
+      user-select:none;
     }
 
     .menu-item:hover{
@@ -132,6 +134,21 @@
       transition:0.3s;
     }
 
+    .card{
+  animation:fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
     .card:hover{
       transform:translateY(-5px);
     }
@@ -165,6 +182,12 @@
       cursor:pointer;
     }
 
+    .task input[type="checkbox"]{
+  accent-color:#1171B1;
+  width:18px;
+  height:18px;
+}
+
     .task label{
       cursor:pointer;
       line-height:1.6;
@@ -184,6 +207,8 @@
       width:100%;
       max-width:700px;
       margin:auto;
+      height:auto;
+      display:block;
       transition:0.5s;
     }
 
@@ -273,6 +298,19 @@
 
     html{
   scroll-behavior:smooth;
+}
+
+
+    @media(max-width:360px){
+
+  .hero h1{
+    font-size:1.3rem;
+  }
+
+  .hero p{
+    font-size:0.8rem;
+  }
+
 }
 
     /* =========================================
@@ -548,7 +586,11 @@
 
     <h2 style="margin-bottom:20px;">🏠 Kondisi Rumah Kehidupan</h2>
 
-    <img id="houseImage" class="house-stage" src="https://i.imgur.com/ax6Z5pS.png" alt="house">
+    <img
+  id="houseImage"
+  class="house-stage"
+  src="assets/house-normal.png"
+  alt="Kondisi Rumah">
 
     <div class="progress-box">
       <h3>Progress Kehidupan</h3>
@@ -631,28 +673,28 @@ Fitur berikutnya:
 
     if(percent >= 80){
 
-      houseImage.src = 'https://i.imgur.com/WKQpL0L.png';
+      houseImage.src = 'assets/house-good.png';
 
       messageBox.className = 'message-box good';
       messageBox.innerHTML = '🔥 Luar biasa! Rumah kehidupanmu berkembang menjadi megah karena konsistensi dan keseimbangan hidup.';
 
     }else if(percent >= 50){
 
-      houseImage.src = 'https://i.imgur.com/vm8T4bS.png';
+      houseImage.src = 'assets/house-medium.png';
 
       messageBox.className = 'message-box good';
       messageBox.innerHTML = '✨ Rumah kehidupanmu mulai berkembang. Tetap jaga ritme dan kesehatan mentalmu.';
 
     }else if(percent >= 25){
 
-      houseImage.src = 'https://i.imgur.com/ax6Z5pS.png';
+      houseImage.src = houseImage.src = 'assets/house-normal.png';
 
       messageBox.className = 'message-box good';
       messageBox.innerHTML = '🌱 Pondasi kehidupanmu mulai terbentuk sedikit demi sedikit.';
 
     }else{
 
-      houseImage.src = 'https://i.imgur.com/9G6P7tM.png';
+      houseImage.src = 'assets/house-bad.png';
 
       messageBox.className = 'message-box bad';
       messageBox.innerHTML = '⚠️ Ritme hidupmu mulai tidak stabil. Istirahat dan mulai kembali secara perlahan.';
@@ -715,6 +757,18 @@ Fitur berikutnya:
     let lastMonthlyReset = localStorage.getItem('lastMonthlyReset');
     let lastYearlyReset = localStorage.getItem('lastYearlyReset');
 
+    setInterval(() => {
+
+  autoResetChecklist();
+  updateProgress();
+
+}, 60000);
+
+    localStorage.setItem(
+  'teacher_rpg_progress',
+  JSON.stringify([...checks].map(c => c.checked))
+);
+
     // RESET HARIAN
     if(lastDailyReset !== today){
 
@@ -761,6 +815,8 @@ Fitur berikutnya:
   loadProgress();
   autoResetChecklist();
   updateProgress();
+
+  alert(`✅ Progress berhasil disimpan!`);
 
 </script>
 
