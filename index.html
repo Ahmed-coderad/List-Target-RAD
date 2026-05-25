@@ -6,6 +6,7 @@
   <title>Life Growth System - Teacher RAD</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <style>
     *{
@@ -586,11 +587,15 @@
 
     <h2 style="margin-bottom:20px;">🏠 Kondisi Rumah Kehidupan</h2>
 
-    <img
-  id="houseImage"
-  class="house-stage"
-  src="assets/house-normal.png"
-  alt="Kondisi Rumah">
+    <lottie-player
+  id="houseAnimation"
+  src="https://assets10.lottiefiles.com/packages/lf20_x62chJ.json"
+  background="transparent"
+  speed="1"
+  style="width:100%; max-width:500px; margin:auto;"
+  loop
+  autoplay>
+</lottie-player>
 
     <div class="progress-box">
       <h3>Progress Kehidupan</h3>
@@ -626,8 +631,9 @@
   const progressFill = document.getElementById('progressFill');
   const progressText = document.getElementById('progressText');
   const messageBox = document.getElementById('messageBox');
-  const houseImage = document.getElementById('houseImage');
+  const houseAnimation = document.getElementById('houseAnimation');
 
+  
   // ================================
   // NAVIGATION
   // ================================
@@ -673,28 +679,28 @@ Fitur berikutnya:
 
     if(percent >= 80){
 
-      houseImage.src = 'assets/house-good.png';
+      houseAnimation.load('https://assets10.lottiefiles.com/packages/lf20_touohxv0.json');
 
       messageBox.className = 'message-box good';
       messageBox.innerHTML = '🔥 Luar biasa! Rumah kehidupanmu berkembang menjadi megah karena konsistensi dan keseimbangan hidup.';
 
     }else if(percent >= 50){
 
-      houseImage.src = 'assets/house-medium.png';
-
+      houseAnimation.load('https://assets10.lottiefiles.com/packages/lf20_x62chJ.json');
+      
       messageBox.className = 'message-box good';
       messageBox.innerHTML = '✨ Rumah kehidupanmu mulai berkembang. Tetap jaga ritme dan kesehatan mentalmu.';
 
     }else if(percent >= 25){
 
-      houseImage.src = houseImage.src = 'assets/house-normal.png';
+      houseAnimation.load('https://assets10.lottiefiles.com/packages/lf20_x62chJ.json');
 
       messageBox.className = 'message-box good';
       messageBox.innerHTML = '🌱 Pondasi kehidupanmu mulai terbentuk sedikit demi sedikit.';
 
     }else{
 
-      houseImage.src = 'assets/house-bad.png';
+      houseAnimation.load('https://assets10.lottiefiles.com/packages/lf20_qp1q7mct.json');
 
       messageBox.className = 'message-box bad';
       messageBox.innerHTML = '⚠️ Ritme hidupmu mulai tidak stabil. Istirahat dan mulai kembali secara perlahan.';
@@ -757,12 +763,6 @@ Fitur berikutnya:
     let lastMonthlyReset = localStorage.getItem('lastMonthlyReset');
     let lastYearlyReset = localStorage.getItem('lastYearlyReset');
 
-    setInterval(() => {
-
-  autoResetChecklist();
-  updateProgress();
-
-}, 60000);
 
     localStorage.setItem(
   'teacher_rpg_progress',
@@ -817,6 +817,13 @@ Fitur berikutnya:
   updateProgress();
 
   alert(`✅ Progress berhasil disimpan!`);
+
+   setInterval(() => {
+
+  autoResetChecklist();
+  updateProgress();
+
+}, 60000);
 
 </script>
 
